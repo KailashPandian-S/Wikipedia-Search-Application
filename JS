@@ -1,0 +1,77 @@
+let searchElement = document.getElementById("searchInput");
+let searchResultsElement = document.getElementById("searchResults");
+let SpinnerElement = document.getElementById("spinner");
+
+
+
+
+function createAndAppend(result) {
+    let {
+        title,
+        link,
+        description
+    } = result;
+    //create result Item
+    let resultItem = document.createElement("div");
+    resultItem.classList.add("result-item");
+    //create title 
+    let resultTitle = document.createElement("a");
+    resultTitle.textContent = title;
+    resultTitle.href = link;
+    resultTitle.target = "_blank";
+    resultTitle.classList.add("result-title");
+    resultItem.appendChild(resultTitle);
+    //create br 
+    let brElement = document.createElement("br");
+    resultItem.appendChild(brElement);
+    //create url 
+    let resultUrl = document.createElement("a");
+    resultUrl.textContent = link;
+    resultUrl.href = link;
+    resultUrl.classList.add("result-url");
+    resultUrl.target = "_blank";
+    resultItem.appendChild(resultUrl);
+    //create br 
+    let brElement2 = document.createElement("br");
+    resultItem.appendChild(brElement2);
+    //create description
+    let resultDescription = document.createElement("p");
+    resultDescription.textContent = description;
+    resultDescription.classList.add("link-description");
+    resultItem.appendChild(resultDescription);
+    searchResultsElement.appendChild(resultItem);
+    console.log(resultItem);
+}
+
+function displayResults(dataObj) {
+    SpinnerElement.classList.toggle("d-none");
+    for (let result of dataObj) {
+        createAndAppend(result);
+    }
+
+}
+
+
+
+
+searchElement.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        SpinnerElement.classList.toggle("d-none");
+        searchResultsElement.textContent = "";
+        let enteredVal = searchElement.value;
+        let url = "https://apis.ccbp.in/wiki-search?search=" + enteredVal;
+        let options = {
+            method: "GET"
+        };
+        fetch(url, options)
+            .then(function(response) {
+                return (response.json());
+            })
+            .then(function(data) {
+                let {
+                    search_results
+                } = data;
+                displayResults(search_results);
+            });
+    }
+});
