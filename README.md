@@ -1,1 +1,1 @@
-# Wikipedia-Search-Application
+As a part of my learnings I have created a wikipedia search application by applying my knowledge of HTML, CSS and JS. As the API for the search application was provided by the learning platform I concentrated in building front-end and communicating with server using JS
